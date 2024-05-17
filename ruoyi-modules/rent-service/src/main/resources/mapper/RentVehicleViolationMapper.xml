@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szxj.rent.mapper.RentVehicleViolationMapper">
+
+    <resultMap type="RentVehicleViolation" id="RentVehicleViolationResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="leaseId"    column="lease_id"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="violationType"    column="violation_type"    />
+        <result property="desc"    column="desc"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectRentVehicleViolationVo">
+        select id, vehicle_id, lease_id, customer_id, customer_name, violation_type, desc, create_time, update_time from rent_vehicle_violation
+    </sql>
+
+    <select id="selectRentVehicleViolationList" parameterType="RentVehicleViolation" resultMap="RentVehicleViolationResult">
+        <include refid="selectRentVehicleViolationVo"/>
+        <where>
+            <if test="vehicleId != null  and vehicleId != ''"> and vehicle_id = #{vehicleId}</if>
+            <if test="leaseId != null  and leaseId != ''"> and lease_id = #{leaseId}</if>
+            <if test="customerId != null  and customerId != ''"> and customer_id = #{customerId}</if>
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+            <if test="violationType != null  and violationType != ''"> and violation_type = #{violationType}</if>
+            <if test="desc != null  and desc != ''"> and desc = #{desc}</if>
+        </where>
+    </select>
+
+    <select id="selectRentVehicleViolationById" parameterType="String" resultMap="RentVehicleViolationResult">
+        <include refid="selectRentVehicleViolationVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRentVehicleViolation" parameterType="RentVehicleViolation" useGeneratedKeys="true" keyProperty="id">
+        insert into rent_vehicle_violation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null and vehicleId != ''">vehicle_id,</if>
+            <if test="leaseId != null and leaseId != ''">lease_id,</if>
+            <if test="customerId != null and customerId != ''">customer_id,</if>
+            <if test="customerName != null and customerName != ''">customer_name,</if>
+            <if test="violationType != null and violationType != ''">violation_type,</if>
+            <if test="desc != null">desc,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null and vehicleId != ''">#{vehicleId},</if>
+            <if test="leaseId != null and leaseId != ''">#{leaseId},</if>
+            <if test="customerId != null and customerId != ''">#{customerId},</if>
+            <if test="customerName != null and customerName != ''">#{customerName},</if>
+            <if test="violationType != null and violationType != ''">#{violationType},</if>
+            <if test="desc != null">#{desc},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRentVehicleViolation" parameterType="RentVehicleViolation">
+        update rent_vehicle_violation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleId != null and vehicleId != ''">vehicle_id = #{vehicleId},</if>
+            <if test="leaseId != null and leaseId != ''">lease_id = #{leaseId},</if>
+            <if test="customerId != null and customerId != ''">customer_id = #{customerId},</if>
+            <if test="customerName != null and customerName != ''">customer_name = #{customerName},</if>
+            <if test="violationType != null and violationType != ''">violation_type = #{violationType},</if>
+            <if test="desc != null">desc = #{desc},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRentVehicleViolationById" parameterType="String">
+        delete from rent_vehicle_violation where id = #{id}
+    </delete>
+
+    <delete id="deleteRentVehicleViolationByIds" parameterType="String">
+        delete from rent_vehicle_violation where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

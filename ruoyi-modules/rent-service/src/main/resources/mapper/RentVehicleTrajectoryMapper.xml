@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szxj.rent.mapper.RentVehicleTrajectoryMapper">
+
+    <resultMap type="RentVehicleTrajectory" id="RentVehicleTrajectoryResult">
+        <result property="id"    column="id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="speed"    column="speed"    />
+        <result property="electricity"    column="electricity"    />
+        <result property="currentTime"    column="current_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectRentVehicleTrajectoryVo">
+        select id, device_id, vehicle_id, longitude, latitude, speed, electricity, current_time, create_time, update_time from rent_vehicle_trajectory
+    </sql>
+
+    <select id="selectRentVehicleTrajectoryList" parameterType="RentVehicleTrajectory" resultMap="RentVehicleTrajectoryResult">
+        <include refid="selectRentVehicleTrajectoryVo"/>
+        <where>
+            <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
+            <if test="vehicleId != null  and vehicleId != ''"> and vehicle_id = #{vehicleId}</if>
+            <if test="longitude != null  and longitude != ''"> and longitude = #{longitude}</if>
+            <if test="latitude != null  and latitude != ''"> and latitude = #{latitude}</if>
+            <if test="speed != null  and speed != ''"> and speed = #{speed}</if>
+            <if test="electricity != null  and electricity != ''"> and electricity = #{electricity}</if>
+            <if test="currentTime != null "> and current_time = #{currentTime}</if>
+        </where>
+    </select>
+
+    <select id="selectRentVehicleTrajectoryById" parameterType="String" resultMap="RentVehicleTrajectoryResult">
+        <include refid="selectRentVehicleTrajectoryVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRentVehicleTrajectory" parameterType="RentVehicleTrajectory" useGeneratedKeys="true" keyProperty="id">
+        insert into rent_vehicle_trajectory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">device_id,</if>
+            <if test="vehicleId != null and vehicleId != ''">vehicle_id,</if>
+            <if test="longitude != null and longitude != ''">longitude,</if>
+            <if test="latitude != null and latitude != ''">latitude,</if>
+            <if test="speed != null and speed != ''">speed,</if>
+            <if test="electricity != null">electricity,</if>
+            <if test="currentTime != null">current_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">#{deviceId},</if>
+            <if test="vehicleId != null and vehicleId != ''">#{vehicleId},</if>
+            <if test="longitude != null and longitude != ''">#{longitude},</if>
+            <if test="latitude != null and latitude != ''">#{latitude},</if>
+            <if test="speed != null and speed != ''">#{speed},</if>
+            <if test="electricity != null">#{electricity},</if>
+            <if test="currentTime != null">#{currentTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRentVehicleTrajectory" parameterType="RentVehicleTrajectory">
+        update rent_vehicle_trajectory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">device_id = #{deviceId},</if>
+            <if test="vehicleId != null and vehicleId != ''">vehicle_id = #{vehicleId},</if>
+            <if test="longitude != null and longitude != ''">longitude = #{longitude},</if>
+            <if test="latitude != null and latitude != ''">latitude = #{latitude},</if>
+            <if test="speed != null and speed != ''">speed = #{speed},</if>
+            <if test="electricity != null">electricity = #{electricity},</if>
+            <if test="currentTime != null">current_time = #{currentTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRentVehicleTrajectoryById" parameterType="String">
+        delete from rent_vehicle_trajectory where id = #{id}
+    </delete>
+
+    <delete id="deleteRentVehicleTrajectoryByIds" parameterType="String">
+        delete from rent_vehicle_trajectory where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

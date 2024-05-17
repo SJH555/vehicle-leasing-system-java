@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szxj.rent.mapper.RentCustomerMapper">
+
+    <resultMap type="RentCustomer" id="RentCustomerResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="age"    column="age"    />
+        <result property="phone"    column="phone"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="driverLicenseId"    column="driver_license_id"    />
+        <result property="rentalStatus"    column="rental_status"    />
+        <result property="banStatus"    column="ban_status"    />
+        <result property="deleteFlag"    column="delete_flag_"    />
+        <result property="idCradImg"    column="id_crad_img"    />
+        <result property="driverLicenseImg"    column="driver_license_img"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectRentCustomerVo">
+        select id, name, age, phone, id_card, driver_license_id, rental_status, ban_status, delete_flag_, id_crad_img, driver_license_img, remark, create_time, update_time from rent_customer
+    </sql>
+
+    <select id="selectRentCustomerList" parameterType="RentCustomer" resultMap="RentCustomerResult">
+        <include refid="selectRentCustomerVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="age != null  and age != ''"> and age = #{age}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
+            <if test="driverLicenseId != null  and driverLicenseId != ''"> and driver_license_id = #{driverLicenseId}</if>
+            <if test="rentalStatus != null  and rentalStatus != ''"> and rental_status = #{rentalStatus}</if>
+            <if test="banStatus != null  and banStatus != ''"> and ban_status = #{banStatus}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag_ = #{deleteFlag}</if>
+            <if test="idCradImg != null  and idCradImg != ''"> and id_crad_img = #{idCradImg}</if>
+            <if test="driverLicenseImg != null  and driverLicenseImg != ''"> and driver_license_img = #{driverLicenseImg}</if>
+        </where>
+    </select>
+
+    <select id="selectRentCustomerById" parameterType="String" resultMap="RentCustomerResult">
+        <include refid="selectRentCustomerVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRentCustomer" parameterType="RentCustomer" useGeneratedKeys="true" keyProperty="id">
+        insert into rent_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="age != null and age != ''">age,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="idCard != null and idCard != ''">id_card,</if>
+            <if test="driverLicenseId != null and driverLicenseId != ''">driver_license_id,</if>
+            <if test="rentalStatus != null">rental_status,</if>
+            <if test="banStatus != null">ban_status,</if>
+            <if test="deleteFlag != null">delete_flag_,</if>
+            <if test="idCradImg != null">id_crad_img,</if>
+            <if test="driverLicenseImg != null">driver_license_img,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="age != null and age != ''">#{age},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="idCard != null and idCard != ''">#{idCard},</if>
+            <if test="driverLicenseId != null and driverLicenseId != ''">#{driverLicenseId},</if>
+            <if test="rentalStatus != null">#{rentalStatus},</if>
+            <if test="banStatus != null">#{banStatus},</if>
+            <if test="deleteFlag != null">#{deleteFlag},</if>
+            <if test="idCradImg != null">#{idCradImg},</if>
+            <if test="driverLicenseImg != null">#{driverLicenseImg},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRentCustomer" parameterType="RentCustomer">
+        update rent_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="age != null and age != ''">age = #{age},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="idCard != null and idCard != ''">id_card = #{idCard},</if>
+            <if test="driverLicenseId != null and driverLicenseId != ''">driver_license_id = #{driverLicenseId},</if>
+            <if test="rentalStatus != null">rental_status = #{rentalStatus},</if>
+            <if test="banStatus != null">ban_status = #{banStatus},</if>
+            <if test="deleteFlag != null">delete_flag_ = #{deleteFlag},</if>
+            <if test="idCradImg != null">id_crad_img = #{idCradImg},</if>
+            <if test="driverLicenseImg != null">driver_license_img = #{driverLicenseImg},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRentCustomerById" parameterType="String">
+        delete from rent_customer where id = #{id}
+    </delete>
+
+    <delete id="deleteRentCustomerByIds" parameterType="String">
+        delete from rent_customer where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

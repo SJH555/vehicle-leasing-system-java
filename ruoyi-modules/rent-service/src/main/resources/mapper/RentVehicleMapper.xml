@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szxj.rent.mapper.RentVehicleMapper">
+
+    <resultMap type="RentVehicle" id="RentVehicleResult">
+        <result property="id"    column="id"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="modelId"    column="model_id"    />
+        <result property="plateNumber"    column="plate_number"    />
+        <result property="frameNumber"    column="frame_number"    />
+        <result property="colorId"    column="color_id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="purchaseTime"    column="purchase_time"    />
+        <result property="price"    column="price"    />
+        <result property="principalId"    column="principal_id"    />
+        <result property="vehicleStatus"    column="vehicle_status"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+        <result property="vehicleImg"    column="vehicle_img"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectRentVehicleVo">
+        select id, brand_id, model_id, plate_number, frame_number, color_id, device_id, purchase_time, price, principal_id, vehicle_status, delete_flag, vehicle_img, remark, create_time, update_time from rent_vehicle
+    </sql>
+
+    <select id="selectRentVehicleList" parameterType="RentVehicle" resultMap="RentVehicleResult">
+        <include refid="selectRentVehicleVo"/>
+        <where>
+            delete_flag = 0
+            <if test="brandId != null  and brandId != ''"> and brand_id = #{brandId}</if>
+            <if test="modelId != null  and modelId != ''"> and model_id = #{modelId}</if>
+            <if test="plateNumber != null  and plateNumber != ''"> and plate_number like concat('%', #{plateNumber}, '%')</if>
+            <if test="frameNumber != null  and frameNumber != ''"> and frame_number like concat('%', #{frameNumber}, '%')</if>
+            <if test="colorId != null  and colorId != ''"> and color_id = #{colorId}</if>
+            <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
+            <if test="startTime != null and startTime != ''">and purchase_time 	<![CDATA[ >= ]]> #{startTime}</if>
+            <if test="endTime != null and endTime != ''">and purchase_time <![CDATA[ <= ]]> #{endTime}</if>
+            <if test="price != null and price != ''">and price = #{price}</if>
+            <if test="principalId != null  and principalId != ''"> and principal_id = #{principalId}</if>
+            <if test="vehicleStatus != null "> and vehicle_status = #{vehicleStatus}</if>
+        </where>
+        order by purchase_time desc
+    </select>
+
+    <select id="selectRentVehicleById" parameterType="String" resultMap="RentVehicleResult">
+        <include refid="selectRentVehicleVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRentVehicle" parameterType="RentVehicle" useGeneratedKeys="true" keyProperty="id">
+        insert into rent_vehicle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="brandId != null and brandId != ''">brand_id,</if>
+            <if test="modelId != null and modelId != ''">model_id,</if>
+            <if test="plateNumber != null and plateNumber != ''">plate_number,</if>
+            <if test="frameNumber != null and frameNumber != ''">frame_number,</if>
+            <if test="colorId != null and colorId != ''">color_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="purchaseTime != null">purchase_time,</if>
+            <if test="price != null">price,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="principalId != null">principal_id,</if>
+            <if test="vehicleStatus != null">vehicle_status,</if>
+            <if test="deleteFlag != null">delete_flag,</if>
+            <if test="vehicleImg != null">vehicle_img,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="brandId != null and brandId != ''">#{brandId},</if>
+            <if test="modelId != null and modelId != ''">#{modelId},</if>
+            <if test="plateNumber != null and plateNumber != ''">#{plateNumber},</if>
+            <if test="frameNumber != null and frameNumber != ''">#{frameNumber},</if>
+            <if test="colorId != null and colorId != ''">#{colorId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="purchaseTime != null">#{purchaseTime},</if>
+            <if test="price != null">#{price},</if>
+            <if test="principalId != null">#{principalId},</if>
+            <if test="vehicleStatus != null">#{vehicleStatus},</if>
+            <if test="deleteFlag != null">#{deleteFlag},</if>
+            <if test="vehicleImg != null">#{vehicleImg},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRentVehicle" parameterType="RentVehicle">
+        update rent_vehicle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="brandId != null and brandId != ''">brand_id = #{brandId},</if>
+            <if test="modelId != null and modelId != ''">model_id = #{modelId},</if>
+            <if test="plateNumber != null and plateNumber != ''">plate_number = #{plateNumber},</if>
+            <if test="frameNumber != null and frameNumber != ''">frame_number = #{frameNumber},</if>
+            <if test="colorId != null and colorId != ''">color_id = #{colorId},</if>
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="principalId != null">principal_id = #{principalId},</if>
+            <if test="vehicleStatus != null">vehicle_status = #{vehicleStatus},</if>
+            <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>
+            <if test="vehicleImg != null">vehicle_img = #{vehicleImg},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRentVehicleById" parameterType="String">
+        delete from rent_vehicle where id = #{id}
+    </delete>
+
+    <delete id="deleteRentVehicleByIds" parameterType="String">
+        delete from rent_vehicle where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

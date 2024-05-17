@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szxj.rent.mapper.RentVehicleActivityMapper">
+
+    <resultMap type="RentVehicleActivity" id="RentVehicleActivityResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="startEngineTime"    column="start_engine_time"    />
+        <result property="stopEngineTime"    column="stop_engine_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectRentVehicleActivityVo">
+        select id, vehicle_id, start_engine_time, stop_engine_time, create_time, update_time from rent_vehicle_activity
+    </sql>
+
+    <select id="selectRentVehicleActivityList" parameterType="RentVehicleActivity" resultMap="RentVehicleActivityResult">
+        <include refid="selectRentVehicleActivityVo"/>
+        <where>
+            <if test="vehicleId != null  and vehicleId != ''"> and vehicle_id = #{vehicleId}</if>
+            <if test="startEngineTime != null "> and start_engine_time = #{startEngineTime}</if>
+            <if test="stopEngineTime != null "> and stop_engine_time = #{stopEngineTime}</if>
+        </where>
+    </select>
+
+    <select id="selectRentVehicleActivityById" parameterType="String" resultMap="RentVehicleActivityResult">
+        <include refid="selectRentVehicleActivityVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRentVehicleActivity" parameterType="RentVehicleActivity" useGeneratedKeys="true" keyProperty="id">
+        insert into rent_vehicle_activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null and vehicleId != ''">vehicle_id,</if>
+            <if test="startEngineTime != null">start_engine_time,</if>
+            <if test="stopEngineTime != null">stop_engine_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null and vehicleId != ''">#{vehicleId},</if>
+            <if test="startEngineTime != null">#{startEngineTime},</if>
+            <if test="stopEngineTime != null">#{stopEngineTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRentVehicleActivity" parameterType="RentVehicleActivity">
+        update rent_vehicle_activity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleId != null and vehicleId != ''">vehicle_id = #{vehicleId},</if>
+            <if test="startEngineTime != null">start_engine_time = #{startEngineTime},</if>
+            <if test="stopEngineTime != null">stop_engine_time = #{stopEngineTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRentVehicleActivityById" parameterType="String">
+        delete from rent_vehicle_activity where id = #{id}
+    </delete>
+
+    <delete id="deleteRentVehicleActivityByIds" parameterType="String">
+        delete from rent_vehicle_activity where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

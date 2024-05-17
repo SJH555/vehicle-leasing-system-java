@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szxj.rent.mapper.RentVehicleTypeMapper">
+
+    <resultMap type="RentVehicleType" id="RentVehicleTypeResult">
+        <result property="id"    column="id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="type"    column="type"    />
+        <result property="name"    column="name"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectRentVehicleTypeVo">
+        select id, parent_id, ancestors, type, name, order_num, delete_flag, remark, create_time, update_time from rent_vehicle_type
+    </sql>
+
+    <select id="selectRentVehicleTypeList" parameterType="RentVehicleType" resultMap="RentVehicleTypeResult">
+        <include refid="selectRentVehicleTypeVo"/>
+        <where>
+            delete_flag = 0
+            <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="orderNum != null  and orderNum != ''"> and order_num = #{orderNum}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <select id="selectRentVehicleTypeById" parameterType="String" resultMap="RentVehicleTypeResult">
+        <include refid="selectRentVehicleTypeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRentVehicleType" parameterType="RentVehicleType" useGeneratedKeys="true" keyProperty="id">
+        insert into rent_vehicle_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">parent_id,</if>
+            <if test="ancestors != null">ancestors,</if>
+            <if test="type != null">type,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="deleteFlag != null">delete_flag,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">#{parentId},</if>
+            <if test="ancestors != null">#{ancestors},</if>
+            <if test="type != null">#{type},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="deleteFlag != null">#{deleteFlag},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRentVehicleType" parameterType="RentVehicleType">
+        update rent_vehicle_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRentVehicleTypeById" parameterType="String">
+        delete from rent_vehicle_type where id = #{id}
+    </delete>
+
+    <delete id="deleteRentVehicleTypeByIds" parameterType="String">
+        delete from rent_vehicle_type where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
