@@ -23,11 +23,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
+    <resultMap type="RentVehicleVo" id="RentVehicleResultVo">
+        <result property="id"    column="id"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="modelId"    column="model_id"    />
+        <result property="plateNumber"    column="plate_number"    />
+        <result property="frameNumber"    column="frame_number"    />
+        <result property="colorId"    column="color_id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="purchaseTime"    column="purchase_time"    />
+        <result property="price"    column="price"    />
+        <result property="principalId"    column="principal_id"    />
+        <result property="vehicleStatus"    column="vehicle_status"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+        <result property="vehicleImg"    column="vehicle_img"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <association property="brandName"    column="brand_id" select="getBrandName"    />
+        <association property="modelName"    column="model_id" select="getModelName"    />
+        <association property="colorName"    column="color_id" select="getColorName"    />
+    </resultMap>
+
     <sql id="selectRentVehicleVo">
         select id, brand_id, model_id, plate_number, frame_number, color_id, device_id, purchase_time, price, principal_id, vehicle_status, delete_flag, vehicle_img, remark, create_time, update_time from rent_vehicle
     </sql>
 
-    <select id="selectRentVehicleList" parameterType="RentVehicle" resultMap="RentVehicleResult">
+    <select id="getBrandName" parameterType="integer" resultType="string">
+        select name from rent_vehicle_type
+            where id = #{id}
+    </select>
+
+    <select id="getModelName" parameterType="integer" resultType="string">
+        select name from rent_vehicle_type
+            where id = #{id}
+    </select>
+
+    <select id="getColorName" parameterType="integer" resultType="string">
+        select name from rent_vehicle_type
+            where id = #{id}
+    </select>
+
+    <select id="selectRentVehicleList" parameterType="RentVehicle" resultMap="RentVehicleResultVo">
         <include refid="selectRentVehicleVo"/>
         <where>
             delete_flag = 0
