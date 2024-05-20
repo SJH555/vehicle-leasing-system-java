@@ -19,4 +19,7 @@ public class RentVehicleVo extends RentVehicle {
       /** 颜色名称 */
     private String colorName;
 
+    /** 负责人名称 */
+    private String principalName;
+
 }

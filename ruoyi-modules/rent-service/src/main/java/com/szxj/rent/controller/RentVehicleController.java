@@ -48,7 +48,7 @@ public class RentVehicleController extends BaseController
     @RequiresPermissions("service:vehicle:export")
     @Log(title = "车辆信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, RentVehicle rentVehicle)
+    public void export(HttpServletResponse response, RentVehicleDto rentVehicle)
     {
         List<RentVehicle> list = rentVehicleService.selectRentVehicleList(rentVehicle);
         ExcelUtil<RentVehicle> util = new ExcelUtil<RentVehicle>(RentVehicle.class);

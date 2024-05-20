@@ -43,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <association property="brandName"    column="brand_id" select="getBrandName"    />
         <association property="modelName"    column="model_id" select="getModelName"    />
         <association property="colorName"    column="color_id" select="getColorName"    />
+        <association property="principalName" column="principal_id" select="getPrincipalName"/>
     </resultMap>
 
     <sql id="selectRentVehicleVo">
@@ -64,6 +65,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             where id = #{id}
     </select>
 
+    <select id="getPrincipalName" parameterType="integer" resultType="string">
+        select nick_name from sys_user
+            where user_id = #{id}
+    </select>
+
+
     <select id="selectRentVehicleList" parameterType="RentVehicle" resultMap="RentVehicleResultVo">
         <include refid="selectRentVehicleVo"/>
         <where>
@@ -83,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by purchase_time desc
     </select>
 
-    <select id="selectRentVehicleById" parameterType="String" resultMap="RentVehicleResult">
+    <select id="selectRentVehicleById" parameterType="String" resultMap="RentVehicleResultVo">
         <include refid="selectRentVehicleVo"/>
         where id = #{id}
     </select>
@@ -130,12 +137,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateRentVehicle" parameterType="RentVehicle">
         update rent_vehicle
         <trim prefix="SET" suffixOverrides=",">
-            <if test="brandId != null and brandId != ''">brand_id = #{brandId},</if>
-            <if test="modelId != null and modelId != ''">model_id = #{modelId},</if>
+            <if test="true">brand_id = #{brandId},</if>
+            <if test="true">model_id = #{modelId},</if>
             <if test="plateNumber != null and plateNumber != ''">plate_number = #{plateNumber},</if>
             <if test="frameNumber != null and frameNumber != ''">frame_number = #{frameNumber},</if>
-            <if test="colorId != null and colorId != ''">color_id = #{colorId},</if>
+            <if test="true">color_id = #{colorId},</if>
             <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="purchaseTime != null">purchase_time = #{purchaseTime},</if>
+            <if test="price != null">price = #{price},</if>
             <if test="principalId != null">principal_id = #{principalId},</if>
             <if test="vehicleStatus != null">vehicle_status = #{vehicleStatus},</if>
             <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>

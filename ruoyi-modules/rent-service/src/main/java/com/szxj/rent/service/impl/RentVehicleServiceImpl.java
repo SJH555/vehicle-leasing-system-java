@@ -67,7 +67,7 @@ public class RentVehicleServiceImpl implements IRentVehicleService
     @Override
     public int updateRentVehicle(RentVehicle rentVehicle)
     {
-        rentVehicle.setUpdateTime(DateUtils.getNowDate());
+//        rentVehicle.setUpdateTime(DateUtils.getNowDate());
         return rentVehicleMapper.updateRentVehicle(rentVehicle);
     }
 
