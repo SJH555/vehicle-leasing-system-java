@@ -22,4 +22,7 @@ public class RentVehicleVo extends RentVehicle {
     /** 负责人名称 */
     private String principalName;
 
+    /** 绑定设备号 */
+    private String deviceNum;
+
 }

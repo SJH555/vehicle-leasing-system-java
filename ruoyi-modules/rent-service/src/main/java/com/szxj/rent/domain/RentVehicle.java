@@ -3,6 +3,7 @@ package com.szxj.rent.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import io.swagger.models.auth.In;
 import lombok.*;
 
 import java.util.Date;
@@ -23,15 +24,19 @@ public class RentVehicle extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** id */
-    private String id;
+    private Integer id;
 
     /** 车辆品牌id */
     @Excel(name = "车辆品牌id")
-    private String brandId;
+    private Integer brandId;
 
     /** 车辆型号id */
     @Excel(name = "车辆型号id")
-    private String modelId;
+    private Integer modelId;
+
+    /** 车辆颜色id */
+    @Excel(name = "车辆颜色id")
+    private Integer colorId;
 
     /** 车牌号 */
     @Excel(name = "车牌号")
@@ -41,20 +46,15 @@ public class RentVehicle extends BaseEntity
     @Excel(name = "车架号")
     private String frameNumber;
 
-    /** 车辆颜色id */
-    @Excel(name = "车辆颜色id")
-    private String colorId;
-
     /** 绑定设备id */
     @Excel(name = "绑定设备id")
-    private String deviceId;
+    private Integer deviceId;
 
     /**
      * 购置日期
      */
     @Excel(name = "购置日期")
     @JsonFormat(pattern = "yyyy-MM-dd")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date purchaseTime;
 
     /**
@@ -65,15 +65,15 @@ public class RentVehicle extends BaseEntity
 
     /** 负责人id */
     @Excel(name = "负责人id")
-    private String principalId;
+    private Integer principalId;
 
     /** 车辆状态：0闲置 1出租 2维修 3保养 4停用 */
     @Excel(name = "车辆状态：0闲置 1出租 2维修 3保养 4停用")
-    private Long vehicleStatus;
+    private Integer vehicleStatus;
 
     /** 删除标识：0未删除 1已删除 */
     @Excel(name = "删除标识：0未删除 1已删除")
-    private String deleteFlag;
+    private Integer deleteFlag;
 
     /** 车辆图片 */
     @Excel(name = "车辆图片")

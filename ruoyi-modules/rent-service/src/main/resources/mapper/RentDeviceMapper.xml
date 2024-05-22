@@ -8,7 +8,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="deviceNum"    column="device_num"    />
         <result property="deviceTypeId"    column="device_type_id"    />
-        <result property="venderId"    column="vender_id"    />
+        <result property="deviceTypeName"    column="device_type_name"    />
+        <result property="vendorId"    column="vendor_id"    />
+        <result property="vendorName"    column="vendor_name"    />
         <result property="deleteFlag"    column="delete_flag"    />
         <result property="remark"    column="remark"    />
         <result property="createTime"    column="create_time"    />
@@ -16,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectRentDeviceVo">
-        select id, device_num, device_type_id, vender_id, delete_flag, remark, create_time, update_time from rent_device
+        select id, device_num, device_type_id, device_type_name, vendor_id, vendor_name, delete_flag, remark, create_time, update_time from rent_device
     </sql>
 
     <select id="selectRentDeviceList" parameterType="RentDevice" resultMap="RentDeviceResult">
@@ -24,9 +26,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="deviceNum != null  and deviceNum != ''"> and device_num = #{deviceNum}</if>
             <if test="deviceTypeId != null  and deviceTypeId != ''"> and device_type_id = #{deviceTypeId}</if>
-            <if test="venderId != null  and venderId != ''"> and vender_id = #{venderId}</if>
+            <if test="deviceTypeName != null  and deviceTypeName != ''"> and device_type_name = #{deviceTypeName}</if>
+            <if test="vendorId != null  and vendorId != ''"> and vendor_id = #{vendorId}</if>
+            <if test="vendorName != null  and vendorName != ''"> and vendor_name = #{vendorName}</if>
             <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectRentDeviceById" parameterType="String" resultMap="RentDeviceResult">
@@ -39,7 +44,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="deviceNum != null and deviceNum != ''">device_num,</if>
             <if test="deviceTypeId != null and deviceTypeId != ''">device_type_id,</if>
-            <if test="venderId != null and venderId != ''">vender_id,</if>
+            <if test="deviceTypeName != null and deviceTypeName != ''">device_type_name,</if>
+            <if test="vendorId != null and vendorId != ''">vendor_id,</if>
+            <if test="vendorName != null and vendorName != ''">vendor_Name,</if>
             <if test="deleteFlag != null">delete_flag,</if>
             <if test="remark != null">remark,</if>
             <if test="createTime != null">create_time,</if>
@@ -48,7 +55,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="deviceNum != null and deviceNum != ''">#{deviceNum},</if>
             <if test="deviceTypeId != null and deviceTypeId != ''">#{deviceTypeId},</if>
-            <if test="venderId != null and venderId != ''">#{venderId},</if>
+            <if test="deviceTypeName != null and deviceTypeName != ''">#{deviceTypeName},</if>
+            <if test="vendorId != null and vendorId != ''">#{vendorId},</if>
+            <if test="vendorName != null and vendorName != ''">#{vendorName},</if>
             <if test="deleteFlag != null">#{deleteFlag},</if>
             <if test="remark != null">#{remark},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -61,7 +70,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="deviceNum != null and deviceNum != ''">device_num = #{deviceNum},</if>
             <if test="deviceTypeId != null and deviceTypeId != ''">device_type_id = #{deviceTypeId},</if>
-            <if test="venderId != null and venderId != ''">vender_id = #{venderId},</if>
+            <if test="deviceTypeName != null and deviceTypeName != ''">device_type_name = #{deviceTypeName},</if>
+            <if test="vendorId != null and venderId != ''">vender_id = #{vendorId},</if>
+            <if test="vendorName != null and venderName != ''">vender_name = #{vendorName},</if>
             <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null">create_time = #{createTime},</if>

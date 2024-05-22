@@ -44,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <association property="modelName"    column="model_id" select="getModelName"    />
         <association property="colorName"    column="color_id" select="getColorName"    />
         <association property="principalName" column="principal_id" select="getPrincipalName"/>
+        <association property="deviceNum" column="device_id" select="getDeviceNum"/>
     </resultMap>
 
     <sql id="selectRentVehicleVo">
@@ -68,6 +69,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getPrincipalName" parameterType="integer" resultType="string">
         select nick_name from sys_user
             where user_id = #{id}
+    </select>
+
+    <select id="getDeviceNum" parameterType="integer" resultType="string">
+        select device_num from rent_device
+            where id = #{id}
     </select>
 
 
@@ -106,7 +112,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceId != null">device_id,</if>
             <if test="purchaseTime != null">purchase_time,</if>
             <if test="price != null">price,</if>
-            <if test="deviceId != null">device_id,</if>
             <if test="principalId != null">principal_id,</if>
             <if test="vehicleStatus != null">vehicle_status,</if>
             <if test="deleteFlag != null">delete_flag,</if>
