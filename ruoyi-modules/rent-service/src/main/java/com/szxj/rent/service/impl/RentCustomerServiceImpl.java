@@ -54,7 +54,7 @@ public class RentCustomerServiceImpl implements IRentCustomerService
     @Override
     public int insertRentCustomer(RentCustomer rentCustomer)
     {
-        rentCustomer.setCreateTime(DateUtils.getNowDate());
+//        rentCustomer.setCreateTime(DateUtils.getNowDate());
         return rentCustomerMapper.insertRentCustomer(rentCustomer);
     }
 
@@ -67,7 +67,7 @@ public class RentCustomerServiceImpl implements IRentCustomerService
     @Override
     public int updateRentCustomer(RentCustomer rentCustomer)
     {
-        rentCustomer.setUpdateTime(DateUtils.getNowDate());
+//        rentCustomer.setUpdateTime(DateUtils.getNowDate());
         return rentCustomerMapper.updateRentCustomer(rentCustomer);
     }
 

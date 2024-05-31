@@ -14,7 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="rentalStatus"    column="rental_status"    />
         <result property="banStatus"    column="ban_status"    />
         <result property="deleteFlag"    column="delete_flag_"    />
-        <result property="idCradImg"    column="id_crad_img"    />
+        <result property="customerImg"    column="customer_img"    />
+        <result property="idCardImg"    column="id_card_img"    />
         <result property="driverLicenseImg"    column="driver_license_img"    />
         <result property="remark"    column="remark"    />
         <result property="createTime"    column="create_time"    />
@@ -22,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectRentCustomerVo">
-        select id, name, age, phone, id_card, driver_license_id, rental_status, ban_status, delete_flag_, id_crad_img, driver_license_img, remark, create_time, update_time from rent_customer
+        select id, name, age, phone, id_card, driver_license_id, rental_status, ban_status, delete_flag_, customer_img,  id_card_img, driver_license_img, remark, create_time, update_time from rent_customer
     </sql>
 
     <select id="selectRentCustomerList" parameterType="RentCustomer" resultMap="RentCustomerResult">
@@ -33,12 +34,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
             <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
             <if test="driverLicenseId != null  and driverLicenseId != ''"> and driver_license_id = #{driverLicenseId}</if>
-            <if test="rentalStatus != null  and rentalStatus != ''"> and rental_status = #{rentalStatus}</if>
-            <if test="banStatus != null  and banStatus != ''"> and ban_status = #{banStatus}</if>
+            <if test="rentalStatus != null"> and rental_status = #{rentalStatus}</if>
+            <if test="banStatus != null"> and ban_status = #{banStatus}</if>
             <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag_ = #{deleteFlag}</if>
-            <if test="idCradImg != null  and idCradImg != ''"> and id_crad_img = #{idCradImg}</if>
+            <if test="customerImg != null  and customerImg != ''"> and customer_img = #{customerImg}</if>
+            <if test="idCardImg != null  and idCardImg != ''"> and id_crad_img = #{idCradImg}</if>
             <if test="driverLicenseImg != null  and driverLicenseImg != ''"> and driver_license_img = #{driverLicenseImg}</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectRentCustomerById" parameterType="String" resultMap="RentCustomerResult">
@@ -57,7 +60,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="rentalStatus != null">rental_status,</if>
             <if test="banStatus != null">ban_status,</if>
             <if test="deleteFlag != null">delete_flag_,</if>
-            <if test="idCradImg != null">id_crad_img,</if>
+            <if test="customerImg != null">customer_img,</if>
+            <if test="idCardImg != null">id_card_img,</if>
             <if test="driverLicenseImg != null">driver_license_img,</if>
             <if test="remark != null">remark,</if>
             <if test="createTime != null">create_time,</if>
@@ -72,7 +76,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="rentalStatus != null">#{rentalStatus},</if>
             <if test="banStatus != null">#{banStatus},</if>
             <if test="deleteFlag != null">#{deleteFlag},</if>
-            <if test="idCradImg != null">#{idCradImg},</if>
+            <if test="customerImg != null">#{customerImg},</if>
+            <if test="idCardImg != null">#{idCardImg},</if>
             <if test="driverLicenseImg != null">#{driverLicenseImg},</if>
             <if test="remark != null">#{remark},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -91,7 +96,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="rentalStatus != null">rental_status = #{rentalStatus},</if>
             <if test="banStatus != null">ban_status = #{banStatus},</if>
             <if test="deleteFlag != null">delete_flag_ = #{deleteFlag},</if>
-            <if test="idCradImg != null">id_crad_img = #{idCradImg},</if>
+            <if test="customerImg != null">customer_img = #{customerImg},</if>
+            <if test="idCardImg != null">id_card_img = #{idCardImg},</if>
             <if test="driverLicenseImg != null">driver_license_img = #{driverLicenseImg},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
